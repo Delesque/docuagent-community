@@ -1,0 +1,32 @@
+.env
+node_modules/
+.references/
+.claude/
+__pycache__/
+*.pyc
+.pytest_cache/
+.backups/
+.recovery/
+web-next/
+dist/
+*.tsbuildinfo
+**/.docuagent/ui-state.json
+**/.docuagent/conversation.json
+**/.docuagent/bootstrap.json
+**/.docuagent/architecture-history.json
+**/.docuagent/tasks.json
+**/.docuagent/snapshots.json
+**/.docuagent/orchestrator/
+.workbuddy/
+_external/
+
+# pilot playground areas stay local (never commit)
+docuagent/playground/
+_pilot_worker.log
+docuagent/frontend/vitest-out.log
+# the bundled Python runtime is prepared into the build directory
+docuagent/desktop/build/
+.release/
+commercial/
+private/
+docuagent_pro/

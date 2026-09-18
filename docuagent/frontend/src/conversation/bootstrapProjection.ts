@@ -1,5 +1,5 @@
-import type { Chip, Message } from "../components/v2/TypewriterOutput";
-import type { DialogTab } from "../components/v2/DialogBox";
+import type { Chip, Message } from "../components/shell/TypewriterOutput";
+import type { DialogTab } from "../components/shell/DialogBox";
 import type { BootstrapQuestionTradeoff, BootstrapState } from "../api";
 import { CONVERSATION_TAB } from "./workbenchConfig";
 import { draftStatus, formatDraftStatus } from "./draftStatus";

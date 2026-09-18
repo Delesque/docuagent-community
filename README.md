@@ -131,6 +131,10 @@ python -m pytest -q docuagent/tests
 
 安全边界和漏洞报告方式见 [SECURITY.md](SECURITY.md)。
 
+### 参与贡献
+
+贡献方式、代码约定和 PR 要求见 [CONTRIBUTING.md](CONTRIBUTING.md)。已经确定要做的事见 [ROADMAP.md](ROADMAP.md)。参与本项目即视为接受 [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)。
+
 ### 仓库结构
 
 - `docuagent/`：Python 后端、Agent 工作流、项目状态、契约和本地集成
@@ -138,6 +142,7 @@ python -m pytest -q docuagent/tests
 - `docuagent/desktop/`：本地服务的 Electron 外壳
 - `docuagent/tests/`：后端与工作流测试
 - `docuagent/AI_ARCH.md`：社区版源码导航入口
+- `CONTRIBUTING.md`、`ROADMAP.md`、`CODE_OF_CONDUCT.md`：参与方式与范围
 
 ### 许可证与署名
 
@@ -276,6 +281,10 @@ Public repository discovery sends only the query approved by the user. Search re
 
 See [SECURITY.md](SECURITY.md) for the security boundary and vulnerability reporting process.
 
+### Contributing
+
+How to contribute, code conventions, and PR requirements are in [CONTRIBUTING.md](CONTRIBUTING.md). Work that is already decided is listed in [ROADMAP.md](ROADMAP.md). Participating in this project means accepting [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
+
 ### Repository Map
 
 - `docuagent/`: Python backend, agent workflow, project state, contracts, and local integrations
@@ -283,6 +292,7 @@ See [SECURITY.md](SECURITY.md) for the security boundary and vulnerability repor
 - `docuagent/desktop/`: Electron shell for the local service
 - `docuagent/tests/`: backend and workflow tests
 - `docuagent/AI_ARCH.md`: entry point for navigating the community source
+- `CONTRIBUTING.md`, `ROADMAP.md`, `CODE_OF_CONDUCT.md`: how to take part and what is in scope
 
 ### License And Attribution
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Architecture } from "../graph/types";
 import { emptyTaskStream, pushTaskStream, taskStreamText, type TaskStream } from "../graph/taskStream";
 import type { ProviderConfig, TaskPlan, TaskStatus, TaskStreamEvent, WorkspaceInfo } from "../api";
-import type { Message } from "../components/v2/TypewriterOutput";
+import type { Message } from "../components/shell/TypewriterOutput";
 
 export interface TaskFlowOptions {
   workspace: WorkspaceInfo | null;

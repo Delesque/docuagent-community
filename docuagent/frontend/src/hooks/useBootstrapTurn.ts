@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import type { BootstrapState } from "../api";
-import type { DialogTab } from "../components/v2/DialogBox";
-import type { Message } from "../components/v2/TypewriterOutput";
+import type { DialogTab } from "../components/shell/DialogBox";
+import type { Message } from "../components/shell/TypewriterOutput";
 import { projectBootstrapTurn } from "../conversation/bootstrapProjection";
 import type { TranscriptAction } from "../conversation/transcript";
 import { reduceView, type ViewState } from "../conversation/viewMode";

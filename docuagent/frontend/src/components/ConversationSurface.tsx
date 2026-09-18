@@ -1,9 +1,9 @@
 import {
   ModeBadge,
   OverviewTimeline,
-} from "./v2/OverviewTimeline";
-import { TypewriterOutput, type Chip, type Message } from "./v2/TypewriterOutput";
-import { DialogBox, type DialogTab } from "./v2/DialogBox";
+} from "./shell/OverviewTimeline";
+import { TypewriterOutput, type Chip, type Message } from "./shell/TypewriterOutput";
+import { DialogBox, type DialogTab } from "./shell/DialogBox";
 import type { ViewState } from "../conversation/viewMode";
 import type { InterviewMode } from "../api";
 

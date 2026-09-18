@@ -4,7 +4,7 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { useBootstrapSubmission } from "./useBootstrapSubmission";
 import type { BootstrapState, ProviderConfig, WorkspaceInfo } from "../api";
-import type { DialogTab } from "../components/v2/DialogBox";
+import type { DialogTab } from "../components/shell/DialogBox";
 
 (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
 const api = vi.hoisted(() => ({ bootstrapRevise: vi.fn(), streamBootstrapAnswer: vi.fn(), streamBootstrapStart: vi.fn() }));

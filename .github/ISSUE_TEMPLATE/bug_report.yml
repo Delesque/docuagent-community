@@ -1,0 +1,74 @@
+name: Bug report / 缺陷报告
+description: Something did not work the way it should / 行为不符合预期
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file this. Please do not paste API keys, provider endpoints,
+        or project code — logs and descriptions are enough.
+
+        感谢您提交反馈。请不要粘贴 API Key、服务端点或项目代码，描述与日志即可。
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where did it happen / 出现在哪个环节
+      options:
+        - Requirements interview / 需求访谈
+        - Architecture graph / 架构图
+        - Contract or task generation / 契约或任务生成
+        - Code generation or patch review / 代码生成或补丁审阅
+        - Verification / 验证
+        - Documentation gate (AI_ARCH.md) / 文档交付门
+        - Desktop shell or startup / 桌面外壳或启动
+        - Other / 其他
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system / 操作系统
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other / 其他
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions / 版本
+      description: Python version, Node version, and the app version shown in Settings / Python 版本、Node 版本、设置页显示的应用版本
+      placeholder: "Python 3.12.3, Node 22.13.1, DocuAgent 0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: provider
+    attributes:
+      label: Model provider / 模型服务
+      description: Which OpenAI-compatible provider you used. No key or endpoint needed / 使用的兼容服务，无需提供 Key 或端点
+      placeholder: "e.g. DeepSeek / OpenAI-compatible endpoint"
+    validations:
+      required: false
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce / 复现步骤
+      description: Start from an empty project directory if relevant / 如果相关，请从空目录开始描述
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected / 期望结果
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead / 实际结果
+      description: Include error messages or log excerpts. Please strip paths and code you cannot share / 附错误信息或日志片段，请去掉不便公开的路径与代码
+    validations:
+      required: true

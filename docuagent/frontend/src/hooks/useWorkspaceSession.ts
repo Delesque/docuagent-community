@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { chooseFolder, type BootstrapState, type TaskPlan, type WorkspaceInfo } from "../api";
-import type { DialogTab } from "../components/v2/DialogBox";
-import type { Message } from "../components/v2/TypewriterOutput";
+import type { DialogTab } from "../components/shell/DialogBox";
+import type { Message } from "../components/shell/TypewriterOutput";
 import { delay } from "../conversation/delay";
 import { projectReloadUrl } from "../conversation/projectRecovery";
 import { randomThinkingLine } from "../conversation/thinking";

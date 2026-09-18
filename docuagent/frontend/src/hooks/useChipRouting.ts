@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
-import type { DialogTab } from "../components/v2/DialogBox";
-import type { Chip } from "../components/v2/TypewriterOutput";
+import type { DialogTab } from "../components/shell/DialogBox";
+import type { Chip } from "../components/shell/TypewriterOutput";
 import { ARCHITECTURE_EDIT_TAB, MICRO_TASK_TAB, SUBAGENT_STATUS_TAB } from "../conversation/workbenchConfig";
 import type { GraphCommand } from "../graph/store";
 

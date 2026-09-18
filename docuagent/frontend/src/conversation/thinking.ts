@@ -17,7 +17,7 @@
  *  phrases themselves, so adding a sixth line cannot silently reintroduce the gap.
  */
 
-import type { Chip } from "../components/v2/TypewriterOutput";
+import type { Chip } from "../components/shell/TypewriterOutput";
 
 /** Shown while a turn is in flight. Picked at random, so none may depend on its text
  *  being matched or on its position in this list. */

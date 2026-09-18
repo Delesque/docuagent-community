@@ -1,0 +1,43 @@
+name: Feature request / 功能建议
+description: Suggest a capability or change / 提议新能力或改动
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The community edition covers creating new personal projects from an empty directory.
+        Reconstruction of existing projects and proprietary team features are out of scope — if your
+        idea sits there, say so and we will discuss whether the boundary should move.
+
+        社区版覆盖「从空目录创建个人新项目」。既有项目重建与私有团队能力不在范围内；
+        如果你的想法落在边界外，请说明，我们会讨论边界是否该调整。
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem / 你要解决的问题
+      description: What are you trying to do that is hard or impossible today / 目前难以或无法做到的事
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like / 希望的能力
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered / 考虑过的替代方案
+    validations:
+      required: false
+  - type: dropdown
+    id: contribution
+    attributes:
+      label: Would you work on it? / 你愿意一起实现吗
+      options:
+        - "Yes, I would open a PR / 愿意，我可以提 PR"
+        - "Yes, with guidance / 愿意，但需要指导"
+        - "No, just suggesting / 只是建议"
+    validations:
+      required: true

@@ -55,7 +55,7 @@ DocuAgent 先通过结构化访谈确认需求，再生成可审阅、可修改�
 
 1. 选择一个空目录并描述项目目标。
 2. 回答需求访谈，审阅并确认架构图。
-3. DocuAgent 从架构生成模块契约和按依赖排序的工作单元。
+3. DocuAgent 从架构生成模块契约和按依赖排序的工作单元；同一批里互不依赖的模块会同时开工。
 4. 模块 Agent 在隔离工作区中实现任务，并提交差异供审阅。
 5. 用户应用改动后运行声明的验证命令；失败时进入诊断和修复流程。
 6. 文档 Agent 按目录更新 `AI_ARCH.md` 文档树，程序执行事实与契约门禁。
@@ -211,7 +211,7 @@ All formal `AI_ARCH.md` content is written by the documentation agent. After cod
 
 1. Select an empty directory and describe the project goal.
 2. Complete the requirements interview, then review and confirm the architecture graph.
-3. DocuAgent derives module contracts and dependency-ordered work items.
+3. DocuAgent derives module contracts and dependency-ordered work items; modules in the same batch that do not depend on one another start at the same time.
 4. Module agents implement tasks in isolated workspaces and submit diffs for review.
 5. After the user applies a change, DocuAgent runs the declared verification commands and enters diagnosis and repair when needed.
 6. The documentation agent updates the `AI_ARCH.md` tree directory by directory while program logic enforces fact and contract gates.

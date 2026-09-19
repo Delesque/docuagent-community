@@ -4,7 +4,9 @@
 
 ## 中文
 
-DocuAgent 是一个本地优先、以架构图为工作基底的 AI 编程工作台。它把需求确认、架构设计、模块契约、Agent 分工、代码审阅、验证和项目文档组织成一条可检查的工程流程。
+DocuAgent 是一个本地优先、围绕架构图构建的 AI 工程工作台。架构图让 AI 便捷地了解公共接口，让一百次局部最优的生成成为一个整体。
+
+这里的健康工程规范是模型必须通过的硬性门槛，而不是它自觉遵守的一个 skill。DocuAgent 把需求确认、架构设计、模块契约、Agent 分工、代码审阅、验证和项目文档组织成一条可检查的工程流程。
 
 它解决的重点不是让模型进行更长的对话，而是让模型在明确的工程边界内工作：代码 Agent 不读取完整对话历史，而是使用经过筛选的项目事实；架构图决定模块与依赖；契约定义公共接口；目录文档提供代码导航；任务状态、错误记忆和工作日志负责跨轮次延续目标。
 
@@ -154,7 +156,9 @@ DocuAgent Community 使用 Apache License 2.0，详见 [LICENSE](LICENSE) 和 [N
 
 ## English
 
-DocuAgent is a local-first AI coding workspace built around an architecture graph. It connects requirements, architecture, module contracts, agent ownership, code review, verification, and project documentation into one inspectable engineering workflow.
+DocuAgent is a local-first AI engineering workbench built around the architecture graph. The graph lets the model see public interfaces without digging through code, and turns a hundred locally optimal generations into one coherent whole.
+
+Here, healthy engineering practice is a hard gate the model has to pass, not a skill it is trusted to follow on its own. DocuAgent connects requirements, architecture, module contracts, agent ownership, code review, verification, and project documentation into one inspectable engineering workflow.
 
 Its goal is not to keep a model inside an ever-growing conversation. Coding agents work within explicit engineering boundaries: they receive selected project facts instead of the full chat transcript; the architecture graph defines modules and dependencies; contracts define public interfaces; directory documents provide code navigation; and persisted tasks, error memory, and work logs carry intent across turns.
 

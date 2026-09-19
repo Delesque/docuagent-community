@@ -38,14 +38,15 @@ DocuAgent 先通过结构化访谈确认需求，再生成可审阅、可修改�
 
 ### 细分功能创新
 
-- **架构契约注册表：** 集中记录模块的公开接口、共享符号、命令和依赖。Agent 不用读实现，就能知道相邻模块提供什么、该调用什么，因此不必重新定义已经存在的通道，接口漂移和隐式耦合也随之减少。
-- **硬门禁而不是劝告：** 查复用、契约登记、验证可兑现、文档覆盖四项都由程序在交付前确认，不靠模型自觉遵守。同一件事被两个模块各写一遍，或者声明的验证命令跑不起来，都会在交付前被拦下。
+- **架构契约注册表：** 集中记录模块的公开接口、共享符号、命令和依赖。Agent 不用读实现，就能知道相邻模块提供什么、该调用什么；而且只装配它自己模块和它声明的依赖模块，整个契约文件不会被塞进上下文。因此不必重新定义已经存在的通道，接口漂移和隐式耦合也随之减少。
+- **契约校验是硬门，不是提醒：** 补丁应用前逐行检查，任一违反都让任务直接失败——import 了不在模块依赖里的模块、使用依赖模块未导出的符号或 `_` 开头的私有符号、定义已被其他模块导出的同名符号、注册已被其他模块拥有的命令、给已有概念起别名。补丁里出现的新公共符号也不会自动放行，而是标记出来供人工审阅，并与补丁一起登记。
+- **架构预检：** 架构确认前，同一个目标文件不能被两个模块同时拥有；每个模块声明的验证命令必须在允许的命令集内，并且能在当前脚手架里真的跑起来。跑不起来的命令不会被换成一条看起来合理的，而是退回要求修订。
 - **持久化模块 Agent：** 不同模块拥有独立的上下文、错误记忆、工作日志和状态，后续任务可以沿用已确认的工程事实。
 - **严格的工作区权限：** 读取范围与编辑范围分开控制。Agent 可以读取必要的相邻接口，但只能修改自己负责的文件；越界需求进入转交流程。
 - **隔离实现与人工审阅：** 实现 Agent 在试运行工作区中修改文件。差异通过契约检查并经用户审阅后，才会写入主项目。
 - **可停止、可恢复的长任务：** 系统保存工具循环、沙箱文件和基线信息。任务停止后可以从检查点恢复，同时检查项目是否已经发生冲突性变化。
 - **错误记忆与修复闭环：** 生成、验证和文档错误会进入持久化记录；修复 Agent 可以依据错误、契约和验证输出继续处理。
-- **代码与文档共同决定交付：** 代码验证通过只表示实现已通过代码门。目录文档覆盖、事实一致性和契约检查也必须通过，项目才会进入可交付状态。
+- **代码与文档共同决定交付：** 代码验证通过只表示实现已通过代码门。目录文档覆盖、事实一致性、契约检查，以及文档里留下的验证命令能否真的跑起来，也必须通过，项目才会进入可交付状态。
 - **显式授权的开源检索：** 架构确认后可以提出一次项目级 GitHub 检索。只有用户批准查询词后才会访问公开仓库，采用决定也不会自动下载或执行第三方代码。
 
 ### 工作流程
@@ -191,14 +192,15 @@ All formal `AI_ARCH.md` content is written by the documentation agent. After cod
 
 ### Detailed Innovations
 
-- **Architecture contract registry:** Records module APIs, shared symbols, commands, and dependencies in one place. An agent can see what a neighbouring module offers and which call to use without reading its implementation, so it does not redefine a channel that already exists. Duplicate definitions, interface drift, and implicit coupling drop as a result.
-- **Hard gates rather than advice:** Reuse checks, contract registration, verifiable commands, and documentation coverage are all confirmed by program logic before delivery rather than left to the model's own discipline. Implementing the same thing twice in two modules, or declaring a verification command that cannot run, is caught before the work is deliverable.
+- **Architecture contract registry:** Records module APIs, shared symbols, commands, and dependencies in one place. An agent can see what a neighbouring module offers and which call to use without reading its implementation, and it receives only its own module plus the dependencies it declared, never the whole registry. So it does not redefine a channel that already exists, and duplicate definitions, interface drift, and implicit coupling drop as a result.
+- **Contract validation is a gate, not a reminder:** It runs line by line before a patch can be applied, and any violation fails the task outright: importing a module outside the declared dependencies, using a symbol the dependency does not export or one starting with `_`, defining a name another module already exports, registering a command another module owns, or aliasing a concept that already has a name. New public symbols are not waved through either; they are flagged for human review and registered together with the patch.
+- **Architecture preflight:** Before an architecture is confirmed, no target file may be claimed by two modules, and every declared verification command must be on the allowed command set and genuinely runnable in the scaffold that exists. A command that cannot run is not quietly replaced with a plausible-looking one; it goes back for revision.
 - **Persistent module agents:** Each module keeps separate context, error memory, work logs, and state so later work can continue from confirmed engineering facts.
 - **Strict workspace permissions:** Read scope and edit scope are controlled separately. Agents may inspect required neighboring interfaces but can modify only the files they own; cross-module work enters a handoff flow.
 - **Isolated implementation and human review:** Implementation agents edit trial workspaces. Diffs reach the main project only after contract checks and user review.
 - **Stoppable and resumable long-running work:** The system persists tool-loop history, sandbox files, and baseline information. A stopped task can resume from its checkpoint after checking the project for conflicting changes.
 - **Error memory and repair loop:** Generation, verification, and documentation failures are persisted. Repair agents continue from the error, contract, and verification evidence.
-- **Code and documentation jointly gate delivery:** Passing code verification completes only the code gate. Directory-document coverage, factual consistency, and contract checks must also pass before the project becomes deliverable.
+- **Code and documentation jointly gate delivery:** Passing code verification completes only the code gate. Directory-document coverage, factual consistency, contract checks, and whether the verification commands left in those documents actually run must also pass before the project becomes deliverable.
 - **Explicitly authorized open-source discovery:** After architecture confirmation, DocuAgent may propose one project-level GitHub search. It contacts public repositories only after the user approves the query, and an adoption decision never downloads or executes third-party code automatically.
 
 ### Workflow

@@ -38,6 +38,8 @@ DocuAgent 先通过结构化访谈确认需求，再生成可审阅、可修改�
 
 ### 细分功能创新
 
+- **对话与实现分离：** 负责对话和协调的 Agent 不写文件，只做规划、冲突裁决和验收标准汇总。实现 Agent 默认只能读项目和架构、写隔离沙箱、跑声明的验证；把改动应用到主项目不在默认权限内，必须显式授予。模型输出是意图，不是授权。
+- **并行度由架构图决定：** 一个模块的依赖全部应用并验证完成后它就能开工，所有满足条件的模块在同一波同时进行；同波的工作区锁只用来防止两个 Agent 写同一个文件。谁能并行，在架构图确认时就定了，不靠派活时分配，也不靠 Agent 自己认领。
 - **架构契约注册表：** 集中记录模块的公开接口、共享符号、命令和依赖。Agent 不用读实现，就能知道相邻模块提供什么、该调用什么；而且只装配它自己模块和它声明的依赖模块，整个契约文件不会被塞进上下文。因此不必重新定义已经存在的通道，接口漂移和隐式耦合也随之减少。
 - **契约校验是硬门，不是提醒：** 补丁应用前逐行检查，任一违反都让任务直接失败——import 了不在模块依赖里的模块、使用依赖模块未导出的符号或 `_` 开头的私有符号、定义已被其他模块导出的同名符号、注册已被其他模块拥有的命令、给已有概念起别名。补丁里出现的新公共符号也不会自动放行，而是标记出来供人工审阅，并与补丁一起登记。
 - **架构预检：** 架构确认前，同一个目标文件不能被两个模块同时拥有；每个模块声明的验证命令必须在允许的命令集内，并且能在当前脚手架里真的跑起来。跑不起来的命令不会被换成一条看起来合理的，而是退回要求修订。
@@ -192,6 +194,8 @@ All formal `AI_ARCH.md` content is written by the documentation agent. After cod
 
 ### Detailed Innovations
 
+- **Conversation and implementation are separated:** The coordinating agent that talks to you never writes files; it plans, adjudicates conflicts, and summarizes acceptance criteria. Implementation agents can, by default, read the project and the architecture, write to an isolated sandbox, and run declared verification. Applying a change to the main project is not in that default set and must be granted explicitly. Model output is intent, not authorization.
+- **Parallelism comes from the architecture graph:** Once a module's dependencies are applied and verified it becomes ready, and every ready module runs in the same wave. The wave-scoped workspace lock exists only to keep two agents from writing the same file. What can run in parallel is settled when the architecture is confirmed, not assigned at dispatch time and not claimed by agents.
 - **Architecture contract registry:** Records module APIs, shared symbols, commands, and dependencies in one place. An agent can see what a neighbouring module offers and which call to use without reading its implementation, and it receives only its own module plus the dependencies it declared, never the whole registry. So it does not redefine a channel that already exists, and duplicate definitions, interface drift, and implicit coupling drop as a result.
 - **Contract validation is a gate, not a reminder:** It runs line by line before a patch can be applied, and any violation fails the task outright: importing a module outside the declared dependencies, using a symbol the dependency does not export or one starting with `_`, defining a name another module already exports, registering a command another module owns, or aliasing a concept that already has a name. New public symbols are not waved through either; they are flagged for human review and registered together with the patch.
 - **Architecture preflight:** Before an architecture is confirmed, no target file may be claimed by two modules, and every declared verification command must be on the allowed command set and genuinely runnable in the scaffold that exists. A command that cannot run is not quietly replaced with a plausible-looking one; it goes back for revision.

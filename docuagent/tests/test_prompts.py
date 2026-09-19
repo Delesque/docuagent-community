@@ -23,6 +23,19 @@ class PromptsTest(unittest.TestCase):
         self.assertIn("must NOT fan out", ARCHITECTURE_SYSTEM_PROMPT)
         self.assertIn("merge it into its consumer", ARCHITECTURE_SYSTEM_PROMPT)
 
+    def test_parallel_shape_guidance_is_present(self) -> None:
+        # Parallelism is architecture taste, not a hard metric: real dependencies stay,
+        # and what the rule asks the model to drop is convenience coupling.
+        self.assertIn("equally sound", ARCHITECTURE_SYSTEM_PROMPT)
+        self.assertIn("convenience coupling", ARCHITECTURE_SYSTEM_PROMPT)
+        self.assertIn("the edge belongs there", ARCHITECTURE_SYSTEM_PROMPT)
+        self.assertIn("equally sound", ARCHITECTURE_EDIT_SYSTEM_PROMPT)
+
+    def test_system_facts_explain_parallel_execution(self) -> None:
+        self.assertIn("Parallel execution", ARCHITECTURE_SYSTEM_PROMPT)
+        self.assertIn("every ready module runs in the same wave", ARCHITECTURE_SYSTEM_PROMPT)
+        self.assertIn("runs one module at a time", ARCHITECTURE_SYSTEM_PROMPT)
+
     def test_task_planning_prompt_includes_integrity_rules(self) -> None:
         self.assertIn("Task integrity rules", TASK_PLAN_PROMPT)
 

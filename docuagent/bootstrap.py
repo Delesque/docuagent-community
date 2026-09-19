@@ -591,6 +591,14 @@ Engineering graph discipline:
 - Keep non-composition fan-out small (usually <= 5). For small/medium architectures aim
   for no more than about 2.0 edges per module; a ratio near 3 usually means load-order
   or wiring noise has leaked into the domain graph.
+- Prefer a shape that lets independent capabilities proceed side by side. When two
+  decompositions are equally sound, choose the one where more modules can start at once.
+  Keep a dependency whenever it is real: if B genuinely cannot be written before A exists,
+  the edge belongs there, and a chain is the honest answer for a pipeline that is truly
+  sequential. What to avoid is convenience coupling — the usual culprit is a thin shared
+  module (config, constants, logging) that everything depends on only because reaching for
+  it is easier than passing values in. Give those values to the modules that need them from
+  the composition root instead.
 - Before ready=true, review the graph once as an engineer: remove redundant entry fan-out,
   merge one-function modules, and make sure every remaining edge would still be drawn if
   the code were implemented exactly as described.
@@ -755,6 +763,11 @@ SYSTEM FACTS — how your design is executed. Read them; they constrain what you
   reads other modules ONLY through their public interface; a directory is unwritable until its
   navigation doc exists; every module's output is reviewed as a patch before landing. Never
   overlap two modules' file scopes.
+- Parallel execution: the dependency graph you design decides how much of the work can happen
+  at once. A module becomes ready as soon as everything in its `depends_on` is applied and
+  verified, and every ready module runs in the same wave, side by side. Modules sharing a wave
+  must not touch the same files, so keep their file scopes disjoint. A graph shaped like a
+  chain runs one module at a time, however many modules it has.
 - Cross-module data flow: for every edge between modules, say which data shape crosses it and
   which module owns it. Sub-agents see only their own contract plus this declared shape — if
   you do not declare it, each sub-agent invents its own and the modules will not connect.

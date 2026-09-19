@@ -38,7 +38,8 @@ DocuAgent 先通过结构化访谈确认需求，再生成可审阅、可修改�
 
 ### 细分功能创新
 
-- **架构契约注册表：** 集中记录模块公开接口、共享符号、命令和依赖。Agent 在实现前检索契约，降低重复定义、接口漂移和隐式耦合风险。
+- **架构契约注册表：** 集中记录模块的公开接口、共享符号、命令和依赖。Agent 不用读实现，就能知道相邻模块提供什么、该调用什么，因此不必重新定义已经存在的通道，接口漂移和隐式耦合也随之减少。
+- **硬门禁而不是劝告：** 查复用、契约登记、验证可兑现、文档覆盖四项都由程序在交付前确认，不靠模型自觉遵守。同一件事被两个模块各写一遍，或者声明的验证命令跑不起来，都会在交付前被拦下。
 - **持久化模块 Agent：** 不同模块拥有独立的上下文、错误记忆、工作日志和状态，后续任务可以沿用已确认的工程事实。
 - **严格的工作区权限：** 读取范围与编辑范围分开控制。Agent 可以读取必要的相邻接口，但只能修改自己负责的文件；越界需求进入转交流程。
 - **隔离实现与人工审阅：** 实现 Agent 在试运行工作区中修改文件。差异通过契约检查并经用户审阅后，才会写入主项目。
@@ -190,7 +191,8 @@ All formal `AI_ARCH.md` content is written by the documentation agent. After cod
 
 ### Detailed Innovations
 
-- **Architecture contract registry:** Records module APIs, shared symbols, commands, and dependencies in one place. Agents search it before implementation, reducing duplicate definitions, interface drift, and implicit coupling.
+- **Architecture contract registry:** Records module APIs, shared symbols, commands, and dependencies in one place. An agent can see what a neighbouring module offers and which call to use without reading its implementation, so it does not redefine a channel that already exists. Duplicate definitions, interface drift, and implicit coupling drop as a result.
+- **Hard gates rather than advice:** Reuse checks, contract registration, verifiable commands, and documentation coverage are all confirmed by program logic before delivery rather than left to the model's own discipline. Implementing the same thing twice in two modules, or declaring a verification command that cannot run, is caught before the work is deliverable.
 - **Persistent module agents:** Each module keeps separate context, error memory, work logs, and state so later work can continue from confirmed engineering facts.
 - **Strict workspace permissions:** Read scope and edit scope are controlled separately. Agents may inspect required neighboring interfaces but can modify only the files they own; cross-module work enters a handoff flow.
 - **Isolated implementation and human review:** Implementation agents edit trial workspaces. Diffs reach the main project only after contract checks and user review.

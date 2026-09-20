@@ -21,10 +21,22 @@ export interface WorkspaceInfo {
   work_state?: TaskPlan | null;
 }
 
+/** A chip as it is persisted with a conversation message. Structurally identical to the
+ *  render-time `Chip`; declared here so the API layer stays independent of components. */
+export interface ConversationChip {
+  text: string;
+  type: "input" | "view" | "action";
+  detail?: string;
+  localSummary?: boolean;
+}
+
 export interface ConversationMessage {
   role: "user" | "assistant";
   content: string;
   timestamp?: string;
+  /** Persisted so a restored conversation keeps its buttons. Chips are routed by their
+   *  text, so a stale one simply does nothing when it no longer applies. */
+  chips?: ConversationChip[];
 }
 
 export type InterviewMode = "beginner" | "guided" | "professional";

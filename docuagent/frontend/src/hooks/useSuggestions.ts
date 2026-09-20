@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { acceptSuggestion, rejectSuggestion, type NodeAttachments, type WorkspaceInfo } from "../api";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { Message } from "../components/v2/TypewriterOutput";
 import type { SuggestionEntry } from "../components/SuggestionsPanel";
 
 export interface SuggestionsOptions {

@@ -84,9 +84,59 @@ describe("useWorkspaceSession", () => {
     expect(h.resetMicroTask).toHaveBeenCalledTimes(1);
     expect(h.dispatch).toHaveBeenCalledWith({ type: "reset" });
     expect(h.dispatch).toHaveBeenCalledWith({ type: "message", message: expect.objectContaining({ role: "agent", text: "hello" }) });
-    expect(h.say).toHaveBeenCalledWith(expect.objectContaining({ text: expect.stringContaining("已恢复 1 条对话记录") }));
+    // Resuming says nothing: the transcript already ends where the user left off.
+    expect(h.say).not.toHaveBeenCalled();
     expect(h.setTabs).toHaveBeenCalledWith([expect.objectContaining({ id: "conversation" })]);
     expect(h.setActiveTab).toHaveBeenCalledWith("conversation");
+    h.unmount();
+  });
+
+  it("rebuilds the input for a question that was still open when the project was left", async () => {
+    const h = renderHook();
+    const resumed = {
+      ...chosen,
+      bootstrap: {
+        status: "interviewing",
+        current_question: { id: "audience", title: "用户", prompt: "谁会使用？", placeholder: "目标用户" },
+      },
+    } as unknown as WorkspaceInfo;
+    await act(async () => h.current.loadWorkspace(resumed));
+    // Nothing is appended — the open question is the last thing in the transcript, and the
+    // point of the fix is that its own input comes back instead of a generic one.
+    expect(h.say).not.toHaveBeenCalled();
+    expect(h.setTabs).toHaveBeenCalledWith([
+      expect.objectContaining({ id: "audience", label: "用户" }),
+    ]);
+    expect(h.setActiveTab).toHaveBeenCalledWith("audience");
+    h.unmount();
+  });
+
+  it("restores the chips that belong to a message", async () => {
+    const h = renderHook();
+    const withChips = {
+      ...chosen,
+      conversation: [
+        {
+          role: "assistant",
+          content: "架构草案已完整。",
+          chips: [
+            { text: "确认架构", type: "action" },
+            { text: "查看架构图", type: "view", detail: "打开图形视图" },
+          ],
+        },
+      ],
+    } as unknown as WorkspaceInfo;
+    await act(async () => h.current.loadWorkspace(withChips));
+    expect(h.dispatch).toHaveBeenCalledWith({
+      type: "message",
+      message: expect.objectContaining({
+        text: "架构草案已完整。",
+        chips: [
+          { text: "确认架构", type: "action" },
+          { text: "查看架构图", type: "view", detail: "打开图形视图" },
+        ],
+      }),
+    });
     h.unmount();
   });
 

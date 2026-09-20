@@ -727,6 +727,35 @@ class ConversationNodeTest(unittest.TestCase):
         self.assertIn(docuagent.CONVERSATION_NODE_ID, state["window_bar"])
         self.assertIn(docuagent.CONVERSATION_NODE_ID, state["outline_expanded"])
 
+    def test_conversation_messages_keep_their_chips(self) -> None:
+        messages = docuagent.normalize_conversation_messages([
+            {
+                "role": "assistant",
+                "content": "确认后会生成项目框架。",
+                "chips": [
+                    {"text": "确认架构", "type": "action"},
+                    {"text": "查看架构图", "type": "view", "detail": "打开图形视图查看模块关系"},
+                    {"text": "", "type": "action"},
+                    {"text": "坏类型", "type": "bogus"},
+                    "not-a-dict",
+                ],
+            },
+        ])
+        self.assertEqual(1, len(messages))
+        self.assertEqual(
+            [
+                {"text": "确认架构", "type": "action"},
+                {"text": "查看架构图", "type": "view", "detail": "打开图形视图查看模块关系"},
+            ],
+            messages[0]["chips"],
+        )
+
+    def test_conversation_messages_without_chips_stay_lean(self) -> None:
+        messages = docuagent.normalize_conversation_messages([
+            {"role": "user", "content": "你好"},
+        ])
+        self.assertNotIn("chips", messages[0])
+
     def test_pruning_keeps_the_conversation_but_drops_dead_modules(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir) / "proj"

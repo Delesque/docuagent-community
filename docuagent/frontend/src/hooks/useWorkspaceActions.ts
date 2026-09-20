@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { clearStale, inspectWorkspace, terminalExec, type BootstrapState, type WorkspaceInfo } from "../api";
 import { writelnToTerminal } from "../components/terminalBus";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { Message } from "../components/v2/TypewriterOutput";
 
 export interface WorkspaceActionsOptions {
   workspace: WorkspaceInfo | null;

@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import type { Dispatch } from "react";
 import type { BootstrapState, TaskPlan, WorkspaceInfo } from "../api";
-import type { DialogTab } from "../components/shell/DialogBox";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { DialogTab } from "../components/v2/DialogBox";
+import type { Message } from "../components/v2/TypewriterOutput";
 import { composeTaskStatusAnswer } from "../conversation/taskProgress";
 import type { TranscriptAction } from "../conversation/transcript";
 import { ARCHITECTURE_EDIT_TAB, CONVERSATION_TAB, MICRO_TASK_TAB } from "../conversation/workbenchConfig";

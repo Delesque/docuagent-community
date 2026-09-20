@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { undoArchitecture, type ArchitectureEditResult, type WorkspaceInfo } from "../api";
-import type { DialogTab } from "../components/shell/DialogBox";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { DialogTab } from "../components/v2/DialogBox";
+import type { Message } from "../components/v2/TypewriterOutput";
 import { delay } from "../conversation/delay";
 import { pendingThinkingChip, randomThinkingLine } from "../conversation/thinking";
 import type { TranscriptAction } from "../conversation/transcript";

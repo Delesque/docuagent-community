@@ -1,6 +1,6 @@
 import { Component, StrictMode, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import App from "./App.v2";
 import "./index.css";
 
 /** Catch render crashes so a black screen never happens silently. */

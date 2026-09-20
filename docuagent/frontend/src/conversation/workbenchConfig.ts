@@ -1,4 +1,4 @@
-import type { DialogTab } from "../components/shell/DialogBox";
+import type { DialogTab } from "../components/v2/DialogBox";
 import type { ProviderConfig } from "../api";
 
 /** The input for revising an existing architecture.

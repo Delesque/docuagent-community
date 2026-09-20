@@ -1,5 +1,5 @@
 import { thinkingChipForText } from "./thinking";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { Message } from "../components/v2/TypewriterOutput";
 
 export interface TranscriptState {
   history: Message[];

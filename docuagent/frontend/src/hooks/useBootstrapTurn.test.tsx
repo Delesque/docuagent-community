@@ -53,8 +53,9 @@ describe("useBootstrapTurn", () => {
     expect(h.setDrafts).toHaveBeenCalledWith({});
     expect(h.dispatch).toHaveBeenCalledWith({ type: "setThinking", thinking: "model reasoning", fallback: expect.stringContaining("audience") });
     expect(h.say).toHaveBeenCalledWith(expect.objectContaining({ role: "agent", text: expect.stringContaining("DocuAgent: 谁会使用？ →「用户」") }));
-    // The turn's design pulse rides after the question: counts only, never the draft.
-    expect(h.say).toHaveBeenCalledWith(expect.objectContaining({ text: expect.stringContaining("当前草案：1 个模块") }));
+    // The draft status is no longer part of the message: it rides above the conversation
+    // (DraftStatusBar) so it can update in place instead of under every question.
+    expect(h.say).toHaveBeenCalledWith(expect.objectContaining({ text: expect.not.stringContaining("当前草案") }));
     expect(h.setTabs).toHaveBeenCalledWith([{ id: "audience", label: "用户", promptKey: "audience", placeholder: "目标用户" }]);
     expect(h.setActiveTab).toHaveBeenCalledWith("audience");
     expect(h.refreshAttachments).not.toHaveBeenCalled();

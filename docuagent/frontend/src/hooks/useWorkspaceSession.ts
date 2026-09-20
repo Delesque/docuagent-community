@@ -1,8 +1,9 @@
 import { useCallback } from "react";
 import type { Dispatch, SetStateAction } from "react";
 import { chooseFolder, type BootstrapState, type TaskPlan, type WorkspaceInfo } from "../api";
-import type { DialogTab } from "../components/shell/DialogBox";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { DialogTab } from "../components/v2/DialogBox";
+import type { Message } from "../components/v2/TypewriterOutput";
+import { projectBootstrapTurn } from "../conversation/bootstrapProjection";
 import { delay } from "../conversation/delay";
 import { projectReloadUrl } from "../conversation/projectRecovery";
 import { randomThinkingLine } from "../conversation/thinking";
@@ -80,7 +81,8 @@ export function useWorkspaceSession({
       const restored: Message[] = (chosen.conversation ?? []).map((msg) => ({
         role: msg.role === "user" ? "user" : "agent",
         text: msg.content,
-        chips: [],
+        // Chips come back with the message so a restored conversation keeps its buttons.
+        chips: msg.chips ?? [],
       }));
       restored.forEach((msg) => dispatch({ type: "message", message: msg }));
 
@@ -98,28 +100,26 @@ export function useWorkspaceSession({
       }
 
       if (restored.length > 0) {
+        // Resume exactly where the conversation stopped. Restoring used to append a notice
+        // after the transcript, which pushed a pending question off the end and replaced
+        // its input with a generic one — the question could not be answered without
+        // scrolling back. Nothing is said here: the transcript already ends where the user
+        // left off, so only the live input has to be rebuilt.
+        const bootstrap = chosen.bootstrap;
+        if (bootstrap?.status === "interviewing" && bootstrap.current_question) {
+          const projection = projectBootstrapTurn(bootstrap);
+          setTabs(projection.tabs);
+          setDrafts({});
+          setActiveTab(projection.activeTab);
+          return;
+        }
         if (hasArchitecture) {
-          say({
-            role: "agent",
-            text: `已恢复 ${restored.length} 条对话记录。这个项目已有架构，可以直接说要改什么。`,
-            chips: [
-              { text: "查看架构图", type: "view", detail: "打开图形视图查看模块关系" },
-              { text: "开始实现", type: "action" },
-              { text: "继续修改架构", type: "input" },
-            ],
-          });
           setTabs(INITIALIZED_TABS);
           setDrafts({});
           setActiveTab(CONVERSATION_TAB.id);
-        } else if (chosen.mode === "new") {
-          say({
-            role: "agent",
-            text: `已恢复 ${restored.length} 条对话记录。这看起来是个新项目，下面需要输入项目名称和项目需求。`,
-            chips: [
-              { text: "项目名称", type: "input" },
-              { text: "项目需求", type: "input" },
-            ],
-          });
+          return;
+        }
+        if (chosen.mode === "new") {
           setTabs([
             { id: "name", label: "项目名称", promptKey: "project_name", placeholder: "给它起个名字…" },
             {
@@ -131,26 +131,18 @@ export function useWorkspaceSession({
           ]);
           setDrafts({});
           setActiveTab("name");
-        } else {
-          say({
-            role: "agent",
-            text: `已恢复 ${restored.length} 条对话记录。这是一个已有项目：${chosen.project_name}。我可以扫描文件反推架构，也可以直接对齐需求。`,
-            chips: [
-              { text: "接入分析", type: "action" },
-              { text: "项目需求", type: "input" },
-            ],
-          });
-          setTabs([
-            {
-              id: "description",
-              label: "项目需求",
-              promptKey: "project_description",
-              placeholder: "这次要做什么？",
-            },
-          ]);
-          setDrafts({});
-          setActiveTab("description");
+          return;
         }
+        setTabs([
+          {
+            id: "description",
+            label: "项目需求",
+            promptKey: "project_description",
+            placeholder: "这次要做什么？",
+          },
+        ]);
+        setDrafts({});
+        setActiveTab("description");
         return;
       }
 

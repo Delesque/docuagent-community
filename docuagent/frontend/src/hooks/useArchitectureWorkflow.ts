@@ -10,7 +10,7 @@ import {
   type ProviderConfig,
   type WorkspaceInfo,
 } from "../api";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { Message } from "../components/v2/TypewriterOutput";
 
 export interface ArchitectureWorkflowOptions {
   workspace: WorkspaceInfo | null;

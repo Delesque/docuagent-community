@@ -430,6 +430,33 @@ def pop_architecture_history(project_root: Path) -> dict[str, Any] | None:
     return previous
 
 
+def _normalize_chips(value: Any) -> list[dict[str, Any]]:
+    """Keep persistable message chips, dropping anything that would not render twice.
+
+    Chips are routed by their text, so a stale one is harmless: it either still applies or
+    does nothing. The shape is validated here because this file is written by the client and
+    read back into the UI.
+    """
+    if not isinstance(value, list):
+        return []
+    chips: list[dict[str, Any]] = []
+    for raw in value:
+        if not isinstance(raw, dict):
+            continue
+        text = str(raw.get("text") or "").strip()
+        kind = str(raw.get("type") or "").strip()
+        if not text or kind not in {"input", "view", "action"}:
+            continue
+        chip: dict[str, Any] = {"text": text, "type": kind}
+        detail = raw.get("detail")
+        if isinstance(detail, str) and detail:
+            chip["detail"] = detail
+        if raw.get("localSummary"):
+            chip["localSummary"] = True
+        chips.append(chip)
+    return chips
+
+
 def normalize_conversation_messages(messages: Any) -> list[dict[str, Any]]:
     """Clean persisted conversation messages before they reach the UI.
 
@@ -454,6 +481,9 @@ def normalize_conversation_messages(messages: Any) -> list[dict[str, Any]]:
         entry: dict[str, Any] = {"role": role, "content": content}
         if raw.get("timestamp"):
             entry["timestamp"] = str(raw["timestamp"])
+        chips = _normalize_chips(raw.get("chips"))
+        if chips:
+            entry["chips"] = chips
         if (
             normalized
             and normalized[-1]["role"] == role

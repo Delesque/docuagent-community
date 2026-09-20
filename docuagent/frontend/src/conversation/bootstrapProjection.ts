@@ -1,8 +1,7 @@
-import type { Chip, Message } from "../components/shell/TypewriterOutput";
-import type { DialogTab } from "../components/shell/DialogBox";
+import type { Chip, Message } from "../components/v2/TypewriterOutput";
+import type { DialogTab } from "../components/v2/DialogBox";
 import type { BootstrapQuestionTradeoff, BootstrapState } from "../api";
 import { CONVERSATION_TAB } from "./workbenchConfig";
-import { draftStatus, formatDraftStatus } from "./draftStatus";
 
 function formatTradeoffs(tradeoffs: BootstrapQuestionTradeoff[]): string {
   return tradeoffs
@@ -33,14 +32,12 @@ export function projectBootstrapTurn(next: BootstrapState): BootstrapTurnProject
     if (question.tradeoffs?.length) {
       chips.push({ text: "权衡", type: "view", detail: formatTradeoffs(question.tradeoffs) });
     }
-    // The status line rides after the question as metadata-only text: the draft's
-    // shape stays private, the user just sees the counts and what still blocks it.
-    const status = draftStatus(next);
-    const statusText = status ? `\n\n${formatDraftStatus(status)}` : "";
     return {
       thinking,
       thinkingFallback: `问题类型：${question.id}\n预期回答：${question.placeholder}`,
-      message: { role: "agent", text: `DocuAgent: ${question.prompt} →「${question.title}」${statusText}`, chips },
+      // The live draft status is not part of the message: it rides above the conversation
+      // so it can update in place instead of being re-printed under every question.
+      message: { role: "agent", text: `DocuAgent: ${question.prompt} →「${question.title}」`, chips },
       tabs: [tab],
       activeTab: question.id,
       refreshAttachments: false,

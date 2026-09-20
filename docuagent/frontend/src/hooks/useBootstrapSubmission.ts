@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import type { DialogTab } from "../components/shell/DialogBox";
+import type { DialogTab } from "../components/v2/DialogBox";
 import type { BootstrapState, ModelCallOptions, ProviderConfig, WorkspaceInfo } from "../api";
 import { bootstrapRevise, streamBootstrapAnswer, streamBootstrapStart } from "../api";
 import { delay } from "../conversation/delay";
 import { pendingThinkingChip, randomThinkingLine } from "../conversation/thinking";
-import type { Message } from "../components/shell/TypewriterOutput";
+import type { Message } from "../components/v2/TypewriterOutput";
 
 export interface BootstrapSubmissionOptions {
   workspace: WorkspaceInfo | null;
